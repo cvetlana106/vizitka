@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кудряшова Алия — визитка</title>
+<meta name="description" content="Кудряшова Алия — торговля онлайн и офлайн, работа с Ozon и Wildberries">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --card: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.09);
+    --text: #f2f2f5;
+    --muted: #9a9aa6;
+    --c1: #ff3d9a;
+    --c2: #8b5cf6;
+    --c3: #22d3ee;
+    --grad: linear-gradient(120deg, var(--c1), var(--c2), var(--c3), var(--c1));
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px 16px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Фон: плавающие пятна и сетка ---------- */
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .blob {
+    position: absolute;
+    width: 46vmax;
+    height: 46vmax;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.28;
+    animation: float 18s ease-in-out infinite alternate;
+  }
+  .blob.b1 { background: var(--c1); top: -18vmax; left: -12vmax; }
+  .blob.b2 { background: var(--c2); bottom: -20vmax; right: -14vmax; animation-delay: -6s; }
+  .blob.b3 { background: var(--c3); top: 40%; left: 55%; width: 26vmax; height: 26vmax; opacity: 0.16; animation-delay: -11s; }
+
+  @keyframes float {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(6vmax, 4vmax) scale(1.12); }
+    100% { transform: translate(-4vmax, 7vmax) scale(0.94); }
+  }
+
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+  }
+
+  /* ---------- Карточка ---------- */
+  .card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 460px;
+    padding: 44px 36px 36px;
+    border-radius: 28px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    transform-style: preserve-3d;
+    transition: transform 0.25s ease-out;
+    animation: appear 0.9s cubic-bezier(.2,.8,.2,1) both;
+  }
+  /* Переливающаяся рамка */
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--grad);
+    background-size: 300% 300%;
+    animation: shift 8s linear infinite;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  /* Блик, следующий за курсором */
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,0.07), transparent 60%);
+    pointer-events: none;
+  }
+
+  @keyframes appear {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes shift {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  /* ---------- Аватар ---------- */
+  .avatar {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    margin: 0 auto 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+  }
+  .avatar::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--c1), var(--c2), var(--c3), var(--c1));
+    animation: spin 6s linear infinite;
+    filter: blur(0.5px);
+  }
+  .avatar::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--c1), var(--c2), var(--c3), var(--c1));
+    animation: spin 6s linear infinite;
+    filter: blur(18px);
+    opacity: 0.6;
+  }
+  .avatar span {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #111114;
+    display: grid;
+    place-items: center;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- Имя ---------- */
+  .name {
+    font-size: clamp(30px, 8vw, 42px);
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: var(--grad);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    animation: shift 7s linear infinite;
+    filter: drop-shadow(0 0 18px rgba(139, 92, 246, 0.55)) drop-shadow(0 0 40px rgba(255, 61, 154, 0.25));
+  }
+  .name small {
+    display: block;
+    font-size: 0.82em;
+  }
+
+  .role {
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .role b { color: var(--text); font-weight: 600; }
+
+  /* ---------- Теги ---------- */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 22px 0 30px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: #d8d8e0;
+    transition: transform 0.25s, border-color 0.25s, background 0.25s;
+  }
+  .tag:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); }
+  .tag svg { width: 15px; height: 15px; flex: none; }
+  .tag .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+
+  /* ---------- Кнопка «Написать мне» ---------- */
+  .cta {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 17px 28px;
+    border: none;
+    border-radius: 16px;
+    font: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    background: var(--grad);
+    background-size: 250% auto;
+    animation: shift 6s linear infinite, pulse 2.6s ease-in-out infinite;
+    transition: transform 0.2s, box-shadow 0.3s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .cta::before {           /* блик-полоса */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent);
+    transform: skewX(-20deg);
+    animation: shine 3.2s ease-in-out infinite;
+  }
+  .cta:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 14px 40px -8px rgba(139, 92, 246, 0.75), 0 0 0 4px rgba(255, 255, 255, 0.06);
+  }
+  .cta:active { transform: translateY(0) scale(0.98); }
+  .cta svg { width: 20px; height: 20px; transition: transform 0.35s cubic-bezier(.3,1.6,.5,1); position: relative; }
+  .cta:hover svg { transform: translateX(5px) rotate(-12deg); }
+  .cta span { position: relative; }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 61, 154, 0.45); }
+    50%      { box-shadow: 0 0 0 12px rgba(255, 61, 154, 0); }
+  }
+  @keyframes shine {
+    0%, 55% { left: -60%; }
+    100%    { left: 130%; }
+  }
+
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    transform: scale(0);
+    animation: ripple 0.65s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+  /* ---------- Соцсети ---------- */
+  .socials {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 26px;
+  }
+  .social {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    color: #cfcfd8;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.3s cubic-bezier(.3,1.6,.5,1), color 0.25s, background 0.25s, box-shadow 0.3s, border-color 0.25s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .social svg { width: 23px; height: 23px; }
+  .social:hover, .social:focus-visible {
+    transform: translateY(-6px) rotate(-6deg);
+    color: #fff;
+    border-color: transparent;
+    background: var(--hover-bg);
+    box-shadow: 0 12px 28px -6px var(--hover-glow);
+    outline: none;
+  }
+  .social.tg   { --hover-bg: linear-gradient(135deg, #2aabee, #229ed9); --hover-glow: rgba(42,171,238,0.7); }
+  .social.copy { --hover-bg: linear-gradient(135deg, var(--c2), var(--c1)); --hover-glow: rgba(139,92,246,0.7); }
+  .social.share{ --hover-bg: linear-gradient(135deg, var(--c3), var(--c2)); --hover-glow: rgba(34,211,238,0.6); }
+
+  /* Подсказка */
+  .social::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translate(-50%, 6px);
+    white-space: nowrap;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    background: #1b1b20;
+    border: 1px solid var(--border);
+    color: var(--text);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .social:hover::after { opacity: 1; transform: translate(-50%, 0); }
+
+  .handle {
+    margin-top: 18px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .handle a { color: var(--text); text-decoration: none; border-bottom: 1px dashed rgba(255,255,255,0.3); transition: color .2s, border-color .2s; }
+  .handle a:hover { color: var(--c3); border-color: var(--c3); }
+
+  /* ---------- Тост ---------- */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    z-index: 10;
+    transform: translate(-50%, 30px);
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: #17171c;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* ---------- Мобильные ---------- */
+  @media (max-width: 480px) {
+    .card { padding: 36px 22px 28px; border-radius: 24px; }
+    .avatar { width: 88px; height: 88px; margin-bottom: 22px; }
+    .avatar span { font-size: 28px; }
+    .role { font-size: 15px; }
+    .social { width: 50px; height: 50px; }
+  }
+
+  @media (hover: none) {
+    .card { transform: none !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="bg" aria-hidden="true">
+    <div class="grid"></div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <main class="card" id="card">
+    <div class="avatar" aria-hidden="true"><span>КА</span></div>
+
+    <h1 class="name">Кудряшова<small>Алия</small></h1>
+
+    <p class="role">
+      Торговля <b>онлайн</b> и <b>офлайн</b><br>
+      Работа с маркетплейсами <b>Ozon</b> и <b>Wildberries</b>
+    </p>
+
+    <div class="tags">
+      <span class="tag"><span class="dot" style="background:#3b82f6"></span>Ozon</span>
+      <span class="tag"><span class="dot" style="background:#c026d3"></span>Wildberries</span>
+      <span class="tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg>
+        Офлайн-продажи
+      </span>
+      <span class="tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1 1 0 0 0 1 .8h9.7a1 1 0 0 0 1-.8L21 7H6"/></svg>
+        E-commerce
+      </span>
+    </div>
+
+    <a class="cta" id="cta" href="https://t.me/Cveta_Cveta" target="_blank" rel="noopener">
+      <span>Написать мне</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </a>
+
+    <nav class="socials" aria-label="Контакты">
+      <a class="social tg" href="https://t.me/Cveta_Cveta" target="_blank" rel="noopener" data-tip="Telegram" aria-label="Telegram">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.3c.27-1.2-.46-1.67-1.25-1.38L2.84 9.8c-1.17.45-1.15 1.1-.2 1.4l4.57 1.42 1.77 5.42c.22.6.11.84.75.84.49 0 .7-.22.98-.49l2.2-2.14 4.58 3.38c.84.47 1.45.23 1.66-.78L21.94 4.3zM8.3 12.37l9.9-6.25c.49-.3.94-.14.57.19l-8.48 7.65-.33 3.52-1.66-5.1z"/></svg>
+      </a>
+      <button class="social copy" id="copyBtn" type="button" data-tip="Скопировать ник" aria-label="Скопировать ник в Telegram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+      <button class="social share" id="shareBtn" type="button" data-tip="Поделиться" aria-label="Поделиться визиткой">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+      </button>
+    </nav>
+
+    <p class="handle">Telegram: <a href="https://t.me/Cveta_Cveta" target="_blank" rel="noopener">@Cveta_Cveta</a></p>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  (function () {
+    var card = document.getElementById('card');
+    var toast = document.getElementById('toast');
+    var toastTimer;
+
+    function showToast(text) {
+      toast.textContent = text;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
+    }
+
+    // 3D-наклон карточки и блик за курсором (только на устройствах с мышью)
+    if (window.matchMedia('(hover: hover)').matches &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width;
+        var y = (e.clientY - r.top) / r.height;
+        card.style.transform = 'perspective(900px) rotateX(' + ((0.5 - y) * 8) + 'deg) rotateY(' + ((x - 0.5) * 8) + 'deg)';
+        card.style.setProperty('--mx', (x * 100) + '%');
+        card.style.setProperty('--my', (y * 100) + '%');
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = '';
+      });
+    }
+
+    // Волна при нажатии на кнопку
+    document.getElementById('cta').addEventListener('click', function (e) {
+      var r = this.getBoundingClientRect();
+      var size = Math.max(r.width, r.height);
+      var rip = document.createElement('span');
+      rip.className = 'ripple';
+      rip.style.width = rip.style.height = size + 'px';
+      rip.style.left = (e.clientX - r.left - size / 2) + 'px';
+      rip.style.top = (e.clientY - r.top - size / 2) + 'px';
+      this.appendChild(rip);
+      setTimeout(function () { rip.remove(); }, 700);
+    });
+
+    // Копирование ника
+    document.getElementById('copyBtn').addEventListener('click', function () {
+      var nick = '@Cveta_Cveta';
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = nick;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showToast('Скопировано: ' + nick); }
+        catch (err) { showToast(nick); }
+        ta.remove();
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(nick).then(function () { showToast('Скопировано: ' + nick); }, fallback);
+      } else {
+        fallback();
+      }
+    });
+
+    // Поделиться
+    document.getElementById('shareBtn').addEventListener('click', function () {
+      var data = { title: 'Кудряшова Алия', text: 'Торговля онлайн и офлайн, Ozon и Wildberries. Telegram: @Cveta_Cveta', url: 'https://t.me/Cveta_Cveta' };
+      if (navigator.share) {
+        navigator.share(data).catch(function () {});
+      } else {
+        document.getElementById('copyBtn').click();
+      }
+    });
+  })();
+</script>
+</body>
+</html>
