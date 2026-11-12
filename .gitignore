@@ -10,3 +10,6 @@ desktop.ini
 
 # Служебные файлы Claude Code
 .claude/
+
+# Node.js modules (video project)
+node_modules/
